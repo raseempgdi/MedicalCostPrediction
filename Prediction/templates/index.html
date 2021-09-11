@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'prediction/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'prediction/css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'prediction/css/roboto-font.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prediction</title>
+</head>
+<body class="form-v5">
+	<div class="page-content">
+		<div class="form-v5-content">
+			<form class="form-detail" action="{% url 'predict' %}" method="post">
+                {% csrf_token %}
+                {% if cost %}
+                <h2>Prediction Result</h2>
+                <div class="form-row">
+					<center><h3>Hello <b>{{ name }}</b>,<br><br> Your Medical Cost will Be <b>{{ cost }}</b> Rupee.</h3></center>
+                    <center><h3>BMI : {{ bmi }}</h3></center>
+                    {% if bmi < 18.5 %}
+                    <center><h3>Your Weight Status is <b>Underweight</b></h3></center>
+                    {% elif bmi > 18.5 and bmi < 24.9 %}
+                    <center><h3>Your Weight Status is <b>Healthy Weight</b></h3></center>
+                    {% elif bmi > 25.0 and bmi < 29.9 %}
+                    <center><h3>Your Weight Status is <b>Over Weight</b></h3></center>
+                    {% else %}
+                    <center><h3>Your Weight Status is <b>Obesity</b></h3></center>
+                    {% endif %}
+				</div>
+                <div class="form-row-last">
+                    <br>
+					<a href="{% url 'index' %}"><button type="button" class="btn btn-primary">Check Another</button></a>
+				</div>
+                {% else %}
+                <h2>Predict Medical Cost</h2>
+                <div class="form-row">
+					<label for="your-email">Gender</label>
+					<select name="gender" style="width: fit-content;" class="input-text form-control">
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+				</div>
+				<div class="form-row">
+					<label for="full-name">Full Name</label>
+					<input type="text" name="full-name" id="full-name" class="input-text" placeholder="Your Name" required>
+					<i class="fas fa-user"></i>
+				</div>
+				<div class="form-row">
+					<label for="age">Age</label>
+					<input type="number" name="age" id="age" class="input-text" placeholder="Enter Your Age" required>
+					<i class="fas fa-envelope"></i>
+				</div>
+                <div class="form-row">
+					<label for="height">Height(cm)</label>
+					<input type="text" name="height" id="height" class="input-text" placeholder="Enter Your Height" required>
+					<i class="fas fa-envelope"></i>
+				</div>
+                <div class="form-row">
+					<label for="weight">Weight(kg)</label>
+					<input type="text" name="weight" id="weight" class="input-text" placeholder="Enter Your Weight" required>
+					<i class="fas fa-envelope"></i>
+				</div>
+                <div class="form-row">
+					<label for="children">Children</label>
+					<input type="number" name="children" id="children" class="input-text" placeholder="How Many Children Do You Have?" required>
+					<i class="fas fa-envelope"></i>
+				</div>
+				<div class="form-row">
+					<label for="smoker">Smoker?</label>
+					<select name="smoker" style="width: fit-content;" class="input-text form-control">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+				</div>
+				<div class="form-row-last">
+					<input type="submit" name="predict" class="register" value="Predict">
+				</div>
+                {% endif %}
+			</form>
+		</div>
+	</div>
+    
+</body>
+</html>
